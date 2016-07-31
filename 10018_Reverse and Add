@@ -1,0 +1,48 @@
+import java.util.Scanner;
+
+public class Main {
+	
+	public static void main(String[] args) 
+	{
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		for (int i = 0; i < cases; i++)
+		{
+			long number = scan.nextLong();
+			int acc = 0;
+			while (!palindrome(number))
+			{
+				number = number + reverse(number);
+				acc = acc + 1;
+			}
+			System.out.println(acc + " " + number);
+		}
+		scan.close();
+		
+	}
+	public static long reverse (long number)
+	{
+		String value = String.valueOf(number);
+		String reverseValue = "";
+		for (int i = value.length() - 1; i >= 0; i --)
+		{
+			reverseValue = reverseValue + value.charAt(i);
+		}
+		return Long.parseLong(reverseValue);
+		
+	}
+	public static boolean palindrome(long number)
+	{
+		String value = String.valueOf(number);
+		boolean answer = true;
+		for (int i = 0; i < value.length()/2 ; i++)
+		{
+			if (value.charAt(i) != value.charAt(value.length() - i - 1))
+			{
+				answer = false;
+			}
+				
+		}
+		return answer;
+	}
+}

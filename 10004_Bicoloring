@@ -1,0 +1,78 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+	private static int[] marked;
+	private static HashMap<Integer, ArrayList<Integer>> map;
+	private static boolean possible;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			int numNodes = scan.nextInt();
+			if (numNodes == 0) {
+				break;
+			}
+			int numEdges = scan.nextInt();
+			map = new HashMap<Integer, ArrayList<Integer>>();
+			for (int j = 0; j < numEdges; j++) {
+				int firstNode = scan.nextInt();
+				int secondNode = scan.nextInt();
+				if (!map.containsKey(firstNode)) {
+					map.put(firstNode, new ArrayList<Integer>());
+				}
+				if (!map.containsKey(secondNode)) {
+					map.put(secondNode, new ArrayList<Integer>());
+				}
+				ArrayList<Integer> firstMap = map.get(firstNode);
+				if (!firstMap.contains(secondNode)) {
+					firstMap.add(secondNode);
+					map.put(firstNode, firstMap);
+				}
+				ArrayList<Integer> secondMap = map.get(secondNode);
+				if (!secondMap.contains(firstNode)) {
+					secondMap.add(firstNode);
+					map.put(secondNode, secondMap);
+				}
+			}
+			marked = new int[numNodes];
+			for (int i = 0; i < numNodes; i++) {
+				marked[i] = -1;
+			}
+			possible = true;
+			for (int i = 0; i < numNodes; i++) {
+				if (possible) {
+					if (map.containsKey(i)) {
+						if (marked[i] == -1) {
+							marked[i] = 0;
+							search(i);
+						}
+					}
+				}
+			}
+			if (possible) {
+				System.out.println("BICOLORABLE.");
+			} else {
+				System.out.println("NOT BICOLORABLE.");
+			}
+		}
+		scan.close();
+	}
+
+	private static void search(int current) {
+		int currentColor = marked[current];
+		for (int j = 0; j < map.get(current).size(); j++) {
+			if (possible) {
+				int currentValue = map.get(current).get(j);
+				if (marked[currentValue] == -1) {
+					marked[currentValue] = 1 - currentColor;
+					search(currentValue);
+				} else if (marked[currentValue] != (1 - currentColor)) {
+					possible = false;
+				}
+			}
+		}
+
+	}
+}

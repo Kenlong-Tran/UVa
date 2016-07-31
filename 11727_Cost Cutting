@@ -1,0 +1,25 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		ArrayList<Integer> list;
+		for (int i = 1; i <= cases; i++)
+		{
+			list = new ArrayList<Integer>();
+			for (int z = 0; z < 3; z++)
+			{
+				list.add(scan.nextInt());
+			}
+			Collections.sort(list);
+			System.out.println("Case " + i + ": " + list.get(1));
+		}
+		scan.close();
+	}
+
+
+	
+}

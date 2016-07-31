@@ -1,0 +1,105 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Main {
+	static boolean answer = false;
+	static char[] key;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		HashMap<Integer, ArrayList<String>> words;
+		int size;
+		ArrayList<String> list;
+		words = new HashMap<Integer, ArrayList<String>>();
+		size = scan.nextInt();
+		for (int i = 0; i < size; i++) {
+			String currentWord = scan.next();
+			int key = currentWord.length();
+			if (words.containsKey(key)) {
+				list = words.get(key);
+				list.add(currentWord);
+				words.put(key, list);
+			} else {
+				list = new ArrayList<String>();
+				list.add(currentWord);
+				words.put(key, list);
+			}
+
+		}
+		scan.nextLine();
+		while (scan.hasNext()) {
+			String code = scan.nextLine();
+			String[] listOfCodes = code.replaceAll("\\s+", " ").split(" ");
+			boolean[] taken = new boolean[26];
+			char[] map = new char[26];
+			for (int z = 0; z < 26; z++) {
+				taken[z] = false;
+				map[z] = '!';
+			}
+			answer = false;
+			key = new char[26];
+			decrypt(0, words, listOfCodes, map, taken);
+			String solution = "";
+			if (!answer) {
+				for (int a = 0; a < listOfCodes.length; a++) {
+					for (int b = 0; b < listOfCodes[a].length(); b++) {
+						solution = solution + "*";
+					}
+					if (a < listOfCodes.length - 1) {
+						solution = solution + " ";
+					}
+				}
+			} else {
+				for (int a = 0; a < listOfCodes.length; a++) {
+					for (int b = 0; b < listOfCodes[a].length(); b++) {
+						solution = solution + key[Character.getNumericValue(listOfCodes[a].charAt(b)) - 10];
+					}
+					if (a < listOfCodes.length - 1) {
+						solution = solution + " ";
+					}
+				}
+			}
+			System.out.println(solution);
+
+		}
+		scan.close();
+	}
+
+	public static void decrypt(int i, HashMap<Integer, ArrayList<String>> words, String[] listOfCodes, char[] map,
+			boolean[] taken) {
+		if (i == listOfCodes.length) {
+			answer = true;
+			key = map.clone();
+		} else {
+			String currentWord = listOfCodes[i];
+			for (int j = 0; j < words.get(currentWord.length()).size(); j++) {
+				char[] mapTemp = map.clone();
+				boolean[] takenTemp = taken.clone();
+				String cryptWord = words.get(currentWord.length()).get(j);
+				boolean moveOn = true;
+				for (int z = 0; z < currentWord.length(); z++) {
+					char currentLetter = currentWord.charAt(z);
+					char cryptLetter = cryptWord.charAt(z);
+					int currentValue = Character.getNumericValue(currentLetter) - 10;
+					int cryptValue = Character.getNumericValue(cryptLetter) - 10;
+					if (mapTemp[currentValue] == cryptLetter && takenTemp[cryptValue]) {
+						continue;
+					} else if (mapTemp[currentValue] == '!' && !takenTemp[cryptValue]) {
+						mapTemp[currentValue] = cryptLetter;
+						takenTemp[cryptValue] = true;
+					} else {
+						moveOn = false;
+						break;
+					}
+				}
+				if (moveOn) {
+					decrypt(i + 1, words, listOfCodes, mapTemp, takenTemp);
+				}
+			}
+
+		}
+
+	}
+
+}

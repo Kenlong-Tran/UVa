@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		for (int i = 0; i < cases; i ++)
+		{
+			int one = scan.nextInt();
+			if (one % 2 == 0)
+			{
+				one++;
+			}
+			int two = scan.nextInt();
+			int acc = 0;
+			for (int j = one; j <= two; j+=2)
+			{
+				acc = acc + j;
+			}
+			System.out.println("Case " + (i + 1) + ": " + acc);
+		}
+		scan.close();
+	}
+	 
+}

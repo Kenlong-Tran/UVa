@@ -1,0 +1,82 @@
+import java.util.Scanner;
+
+class Main {
+
+	public int[][] field;
+	public int rows;
+	public int cols;
+
+	public static int findEntry(int row, int col, int[][] field, int rows, int cols) {
+		int minesNear = 0;
+		if (field[row][col] == -1) {
+			return -1;
+		}		
+		for (int r = row-1; r <= row+1; r++) {
+			for (int c = col-1; c <= col+1; c++) {
+				if (r >= 0 && r < rows && c >= 0 && c < cols) {
+					if (field[r][c] == -1) {
+						minesNear++;
+					}
+				}
+			}
+		}
+		return minesNear;
+	}
+
+	public static int[][] findMines(int[][] field, int rows, int cols) {
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				field[r][c] = findEntry(r,c, field, rows, cols);
+			}
+		}
+		return field;
+	}
+
+	public static void printField(int prints, int[][] field, int rows, int cols) {
+		System.out.println("Field #" + Integer.toString(prints+1) + ":");
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < cols; c++) {
+				if (field[r][c] == -1) {
+					System.out.print('*');
+				} else {
+					System.out.print(""+field[r][c]);
+				}
+			}
+			System.out.println();
+		}
+		if (rows ==0) {
+			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner (System.in);
+		int prints = 0;
+		while(scanner.hasNext()) {
+			int rows = scanner.nextInt();
+			int cols = scanner.nextInt();
+			if (prints != 0 && rows != 0 && cols != 0) {
+				System.out.println();
+			}
+			int[][] field = new int[rows][cols];
+			for (int r = 0; r < rows; r++) {
+				String line = scanner.next();
+				for (int c = 0; c < cols; c++) {
+					char in = line.charAt(c);
+					if (in == '*') {
+						field[r][c] = -1;
+					} else {
+						field[r][c] = 0;
+					}
+				}
+			}
+			field = findMines(field, rows, cols);
+			if(rows != 0 || cols != 0) {
+				printField(prints, field, rows, cols);
+				prints++;
+			}
+		}
+		scanner.close();
+		System.exit(0);
+	}
+}

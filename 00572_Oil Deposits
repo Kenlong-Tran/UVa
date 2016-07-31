@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+public class Main {
+	static char[][] table;
+	static int m, n;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			m = scan.nextInt();
+			if (m == 0) {
+				break;
+			}
+			n = scan.nextInt();
+			table = new char[n][m];
+			for (int i = 0; i < m; i++) {
+				String temp = scan.next();
+				for (int j = 0; j < n; j++) {
+					table[j][i] = temp.charAt(j);
+				}
+			}
+			int count = 0;
+			for (int i = 0; i < m; i++) {
+				for (int j = 0; j < n; j++) {
+					if (table[j][i] == '@') {
+						count++;
+						search(j, i);
+					}
+				}
+			}
+			System.out.println(count);
+		}
+		scan.close();
+	}
+
+	public static void search(int row, int column) {
+		table[row][column] = '*';
+		if (isValidM(row - 1) && isValidN(column - 1)) {
+			if (table[row - 1][column - 1] == '@') {
+				search(row - 1, column - 1);
+			}
+		}
+		if (isValidM(row - 1) && isValidN(column)) {
+			if (table[row - 1][column] == '@') {
+				search(row - 1, column);
+			}
+		}
+		if (isValidM(row - 1) && isValidN(column + 1)) {
+			if (table[row - 1][column + 1] == '@') {
+				search(row - 1, column + 1);
+			}
+		}
+		if (isValidM(row) && isValidN(column - 1)) {
+			if (table[row][column - 1] == '@') {
+				search(row, column - 1);
+			}
+		}
+		if (isValidM(row) && isValidN(column + 1)) {
+			if (table[row][column + 1] == '@') {
+				search(row, column + 1);
+			}
+		}
+		if (isValidM(row + 1) && isValidN(column - 1)) {
+			if (table[row + 1][column - 1] == '@') {
+				search(row + 1, column - 1);
+			}
+		}
+		if (isValidM(row + 1) && isValidN(column)) {
+			if (table[row + 1][column] == '@') {
+				search(row + 1, column);
+			}
+		}
+		if (isValidM(row + 1) && isValidN(column + 1)) {
+			if (table[row + 1][column + 1] == '@') {
+				search(row + 1, column + 1);
+			}
+		}
+	}
+
+	public static boolean isValidN(int number) {
+		return (0 <= number && number < m);
+	}
+
+	public static boolean isValidM(int number) {
+		return (0 <= number && number < n);
+	}
+}

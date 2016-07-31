@@ -1,0 +1,64 @@
+import java.util.Scanner;
+
+class Main {
+	static int[] values;
+	static int[][] table;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		int coins, total, coinValue;
+		for (int caseNum = 0; caseNum < cases; caseNum++) {
+			coins = scan.nextInt();
+			if (coins == 0) {
+				System.out.println(0);
+			} else {
+				values = new int[coins];
+				total = 0;
+				for (int i = 0; i < coins; i++) {
+					coinValue = scan.nextInt();
+					total = total + coinValue;
+					values[i] = coinValue;
+				}
+				table = new int[coins][total / 2 + 1];
+				for (int z = 0; z < coins; z++) {
+					for (int x = 0; x < total / 2 + 1; x++) {
+						table[z][x] = -1;
+					}
+				}
+				for (int z = total / 2; z >= 0; z--) {
+					m(coins - 1, z);
+					if (table[coins - 1][z] == 1) {
+						System.out.println(total - (2 * z));
+						break;
+					}
+				}
+			}
+		}
+		scan.close();
+	}
+
+	private static void m(int i, int v) {
+		if (v == 0) {
+			table[i][v] = 1;
+		} else if (v > 0 && i == 0 && v == values[i]) {
+			table[i][v] = 1;
+		} else if (v > 0 && i == 0 && v != values[i]) {
+
+			table[i][v] = 0;
+		} else if (v > 0 && i > 0 && values[i] > v) {
+			if (table[i - 1][v] == -1) {
+				m(i - 1, v);
+			}
+			table[i][v] = table[i - 1][v];
+		} else if (v > 0 && i > 0 && values[i] <= v) {
+			if (table[i - 1][v] == -1) {
+				m(i - 1, v);
+			}
+			if (table[i - 1][v - values[i]] == -1) {
+				m(i - 1, v - values[i]);
+			}
+			table[i][v] = Math.max(table[i - 1][v], table[i - 1][v - values[i]]);
+		}
+	}
+}

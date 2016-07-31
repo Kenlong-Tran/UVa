@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		int[] table = new int[76];
+		table[75] = 1;
+		table[74] = 1;
+		table[73] = 1;
+		for (int i = 72; i >= 0; i--) {
+			table[i] = table[i + 2] + table[i + 3];
+		}
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			int value = 76 - scan.nextInt();
+			if (value == 75) {
+				System.out.println(1);
+			} else {
+				System.out.println(table[value] + table[value + 1]);
+			}
+
+		}
+		scan.close();
+	}
+}

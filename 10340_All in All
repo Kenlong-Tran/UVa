@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext())
+		{
+			String[] code = scan.nextLine().split(" ");
+			if (LCS(code[0], code[1]))
+			{
+				System.out.println("Yes");
+			}
+			else
+			{
+				System.out.println("No");
+			}
+		}
+		scan.close();
+	}
+
+	public static boolean LCS(String subString, String string) {
+		if (subString.length() == 0)
+		{
+			return true;
+		}
+		else if (string.length() == 0)
+		{
+			return false;
+		}
+		else{
+		if (subString.charAt(0) == string.charAt(0))
+			{
+				return LCS(subString.substring(1), string.substring(1));
+			}
+		else
+			{
+				return LCS(subString, string.substring(1));
+			}
+		}
+	}
+
+}

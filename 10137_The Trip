@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			int people = scan.nextInt();
+			if (people == 0)
+			{
+				System.exit(0);
+			}
+			double[] prices = new double [people];
+			double average = 0;
+			for (int i = 0; i < people; i++)
+			{
+				prices[i] = scan.nextDouble();
+				average = average + prices[i];
+			}
+			average = average / people;
+			average = Math.round(average * 100)/100.0;
+			double negDifference = 0;
+			double posDifference = 0;
+			for (int i = 0; i < people; i++)
+			{
+				if (prices[i] < average)
+				{
+					negDifference = negDifference + (average - prices[i]);
+					//System.out.println(prices[i]);
+				}
+				else
+				{
+					posDifference = posDifference + (prices[i] - average);
+				}
+				
+			}
+			if (negDifference < posDifference)
+			{
+				System.out.printf("$%.2f\n",negDifference);
+			}else
+			{
+				System.out.printf("$%.2f\n",posDifference);
+			}
+
+
+		}
+		scan.close();
+	}
+
+	
+
+}

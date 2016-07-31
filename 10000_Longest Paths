@@ -1,0 +1,110 @@
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Main {
+
+	static int end;
+	static int maxDistance;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int numCases = 1;
+		while (scan.hasNext()) {
+			int n = scan.nextInt();
+			if (n == 0) {
+				break;
+			}
+			int start = scan.nextInt();
+			boolean cont = true;
+			ArrayList<Node> map = new ArrayList<Node>();
+			map.add(new Node(-1));
+			for (int i = 1; i <= n; i++) {
+				map.add(new Node(i));
+			}
+			while (cont) {
+				int a = scan.nextInt();
+				int b = scan.nextInt();
+				if (a == 0 & b == 0) {
+					cont = false;
+				} else {
+					Node one = map.get(a);
+					Node two = map.get(b);
+					one.addEdge(two);
+				}
+			}
+			end = 0;
+			maxDistance = 0;
+			search(map.get(start));
+			System.out.println("Case " + numCases++ + ": The longest path from " + start + " has length " + maxDistance
+					+ ", finishing at " + end + ".");
+			System.out.println();
+
+		}
+		scan.close();
+	}
+
+	private static void search(Node start) {
+		ArrayDeque<Node> nodeList = new ArrayDeque<Node>();
+		nodeList.add(start);
+		ArrayDeque<Integer> distanceList = new ArrayDeque<Integer>();
+		distanceList.add(0);
+		while (!nodeList.isEmpty()) {
+			Node current = nodeList.remove();
+			int distance = distanceList.remove();
+			if (distance >= maxDistance) {
+				if (distance > maxDistance) {
+					maxDistance = distance;
+					end = current.number;
+				} else {
+					if (current.number < end) {
+						end = current.number;
+
+					}
+				}
+			}
+			ArrayList<Node> edges = current.edges;
+			for (int i = 0; i < edges.size(); i++) {
+				Node next = edges.get(i);
+				if (next.setDistance(distance + 1)) {
+					nodeList.add(next);
+					distanceList.add(distance + 1);
+
+				}
+			}
+		}
+	}
+
+	static class Node {
+		private int distance = Integer.MIN_VALUE;
+		private int number;
+		ArrayList<Node> edges;
+
+		Node(int number) {
+			this.number = number;
+			edges = new ArrayList<Node>();
+		}
+
+		void addEdge(Node ConnectNode) {
+			if (!edges.contains(ConnectNode)) {
+				edges.add(ConnectNode);
+			}
+		}
+
+		public String toString() {
+			String answer = String.valueOf(number) + " : ";
+			for (int i = 0; i < edges.size(); i++) {
+				answer = answer + edges.get(i).number + ", ";
+			}
+			return answer;
+		}
+
+		public boolean setDistance(int newDistance) {
+			if (newDistance > distance) {
+				distance = newDistance;
+				return true;
+			}
+			return false;
+		}
+	}
+}

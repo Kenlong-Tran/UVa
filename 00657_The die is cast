@@ -1,0 +1,125 @@
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class Main {
+	private static char[][] table;
+	private static int row, column;
+	private static int count;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int counter = 1;
+		while (scan.hasNext()) {
+			column = scan.nextInt();
+			row = scan.nextInt();
+			if (column == 0 && row == 0) {
+				break;
+			}
+			System.out.println("Throw " + counter);
+			counter++;
+			table = new char[row][column];
+			for (int i = 0; i < row; i++) {
+				String temp = scan.next();
+				for (int j = 0; j < column; j++) {
+					table[i][j] = temp.charAt(j);
+				}
+			}
+			ArrayList<Integer> diceThrown = new ArrayList<Integer>();
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < column; j++) {
+					if (table[i][j] == 'X' || table[i][j] == '*') {
+						count = 0;
+						search(i, j);
+						if (count > 0) {
+							diceThrown.add(count);
+						}
+					}
+				}
+			}
+			Collections.sort(diceThrown);
+			for (int i = 0; i < diceThrown.size() - 1; i++) {
+				System.out.print(diceThrown.get(i) + " ");
+			}
+			System.out.println(diceThrown.get(diceThrown.size() - 1));
+			System.out.println();
+		}
+		scan.close();
+	}
+
+	public static void search(int row, int column) {
+		if (table[row][column] == 'X') {
+			ArrayDeque<Integer> queue = new ArrayDeque<Integer>();
+			queue.add(row);
+			queue.add(column);
+			count = count + 1;
+			while (!queue.isEmpty()) {
+				int currentX = queue.remove();
+				int currentY = queue.remove();
+				table[currentX][currentY] = '*';
+				if (isValidRow(currentX - 1)) {
+					if (table[currentX - 1][currentY] == 'X') {
+						queue.add(currentX - 1);
+						queue.add(currentY);
+					}
+				}
+				if (isValidRow(currentX + 1)) {
+					if (table[currentX + 1][currentY] == 'X') {
+						queue.add(currentX + 1);
+						queue.add(currentY);
+					}
+				}
+				if (isValidColumn(currentY - 1)) {
+					if (table[currentX][currentY - 1] == 'X') {
+						queue.add(currentX);
+						queue.add(currentY - 1);
+					}
+				}
+				if (isValidColumn(currentY + 1)) {
+					if (table[currentX][currentY + 1] == 'X') {
+						queue.add(currentX);
+						queue.add(currentY + 1);
+					}
+				}
+			}
+			search(row, column);
+		}
+		if (table[row][column] == '*') {
+			table[row][column] = '.';
+			if (isValidRow(row - 1)) {
+				if (table[row - 1][column] == '*' || table[row - 1][column] == 'X') {
+					search(row - 1, column);
+				}
+			}
+			if (isValidRow(row + 1)) {
+				if (table[row + 1][column] == '*' || table[row + 1][column] == 'X') {
+					search(row + 1, column);
+				}
+			}
+			if (isValidColumn(column - 1)) {
+				if (table[row][column - 1] == '*' || table[row][column - 1] == 'X') {
+					search(row, column - 1);
+				}
+
+			}
+			if (isValidColumn(column + 1)) {
+				if (table[row][column + 1] == '*' || table[row][column + 1] == 'X') {
+					search(row, column + 1);
+				}
+
+			}
+
+		}
+
+	}
+
+	public static boolean isValidRow(int number) {
+		return (0 <= number && number < row);
+	}
+
+	public static boolean isValidColumn(int number) {
+		return (0 <= number && number < column);
+	}
+
+}

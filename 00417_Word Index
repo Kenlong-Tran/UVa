@@ -1,0 +1,69 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+class Main {
+	static HashMap<String, Integer> map;
+
+	public static void main(String[] args) {
+		map = new HashMap<String, Integer>();
+		int counter = 1;
+		String[] alphabet = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+				"s", "t", "u", "v", "w", "x", "y", "z" };
+		for (int first = 0; first < alphabet.length; first++) {
+			String key = alphabet[first];
+			map.put(key, counter);
+			counter++;
+		}
+		for (int first = 0; first < alphabet.length - 1; first++) {
+			for (int second = first + 1; second < alphabet.length; second++) {
+				String key = alphabet[first] + alphabet[second];
+				map.put(key, counter);
+				counter++;
+			}
+		}
+		for (int first = 0; first < alphabet.length - 2; first++) {
+			for (int second = first + 1; second < alphabet.length - 1; second++) {
+				for (int third = second + 1; third < alphabet.length; third++) {
+					String key = alphabet[first] + alphabet[second] + alphabet[third];
+					map.put(key, counter);
+					counter++;
+				}
+			}
+		}
+		for (int first = 0; first < alphabet.length - 3; first++) {
+			for (int second = first + 1; second < alphabet.length - 2; second++) {
+				for (int third = second + 1; third < alphabet.length - 1; third++) {
+					for (int fourth = third + 1; fourth < alphabet.length; fourth++) {
+						String key = alphabet[first] + alphabet[second] + alphabet[third] + alphabet[fourth];
+						map.put(key, counter);
+						counter++;
+					}
+				}
+			}
+		}
+		for (int first = 0; first < alphabet.length - 4; first++) {
+			for (int second = first + 1; second < alphabet.length - 3; second++) {
+				for (int third = second + 1; third < alphabet.length - 2; third++) {
+					for (int fourth = third + 1; fourth < alphabet.length - 1; fourth++) {
+						for (int fifth = fourth + 1; fifth < alphabet.length; fifth++) {
+							String key = alphabet[first] + alphabet[second] + alphabet[third] + alphabet[fourth]
+									+ alphabet[fifth];
+							map.put(key, counter);
+							counter++;
+						}
+					}
+				}
+			}
+		}
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			String input = scan.next();
+			if (map.containsKey(input)) {
+				System.out.println(map.get(input));
+			} else {
+				System.out.println(0);
+			}
+		}
+		scan.close();
+	}
+}

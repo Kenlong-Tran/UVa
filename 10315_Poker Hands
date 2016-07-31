@@ -1,0 +1,381 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		String[] cards;
+		ArrayList<String> blackCards, whiteCards;
+		int blackNum, whiteNum;
+		while (scan.hasNext()) {
+			cards = scan.nextLine().replaceAll("\\s+", " ").split(" ");
+			blackCards = new ArrayList<String>(5);
+			whiteCards = new ArrayList<String>(5);
+			for (int i = 0; i < 5; i++) {
+				blackCards.add(cards[i]);
+				whiteCards.add(cards[i + 5]);
+			}
+			String[] blackRanks = rank(blackCards).split(" ");
+			String[] whiteRanks = rank(whiteCards).split(" ");
+			blackNum = Integer.parseInt(blackRanks[0]);
+			whiteNum = Integer.parseInt(whiteRanks[0]);
+
+			if (blackNum > whiteNum) {
+				System.out.println("Black wins.");
+			} else if (blackNum < whiteNum) {
+				System.out.println("White wins.");
+			} else {
+				if (blackNum == 39) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						System.out.println("Tie.");
+					}
+				} else if (blackNum == 38) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							System.out.println("Tie.");
+						}
+					}
+				} else if (blackNum == 37) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							System.out.println("Tie.");
+						}
+					}
+				} else if (blackNum == 36) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							blackNum = Integer.parseInt(blackRanks[3]);
+							whiteNum = Integer.parseInt(whiteRanks[3]);
+							if (blackNum > whiteNum) {
+								System.out.println("Black wins.");
+							} else if (blackNum < whiteNum) {
+								System.out.println("White wins.");
+							} else {
+								blackNum = Integer.parseInt(blackRanks[4]);
+								whiteNum = Integer.parseInt(whiteRanks[4]);
+								if (blackNum > whiteNum) {
+									System.out.println("Black wins.");
+								} else if (blackNum < whiteNum) {
+									System.out.println("White wins.");
+								} else {
+									blackNum = Integer.parseInt(blackRanks[5]);
+									whiteNum = Integer.parseInt(whiteRanks[5]);
+									if (blackNum > whiteNum) {
+										System.out.println("Black wins.");
+									} else if (blackNum < whiteNum) {
+										System.out.println("White wins.");
+									} else {
+										System.out.println("Tie.");
+									}								}
+							}
+						}
+					}
+				} else if (blackNum == 35) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						System.out.println("Tie.");
+					}
+				} else if (blackNum == 34) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							blackNum = Integer.parseInt(blackRanks[3]);
+							whiteNum = Integer.parseInt(whiteRanks[3]);
+							if (blackNum > whiteNum) {
+								System.out.println("Black wins.");
+							} else if (blackNum < whiteNum) {
+								System.out.println("White wins.");
+							} else {
+								System.out.println("Tie.");
+							}
+						}
+					}
+				} else if (blackNum == 33) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							blackNum = Integer.parseInt(blackRanks[3]);
+							whiteNum = Integer.parseInt(whiteRanks[3]);
+							if (blackNum > whiteNum) {
+								System.out.println("Black wins.");
+							} else if (blackNum < whiteNum) {
+								System.out.println("White wins.");
+							} else {
+								System.out.println("Tie.");
+							}
+						}
+					}
+				}else if (blackNum == 32) {
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							blackNum = Integer.parseInt(blackRanks[3]);
+							whiteNum = Integer.parseInt(whiteRanks[3]);
+							if (blackNum > whiteNum) {
+								System.out.println("Black wins.");
+							} else if (blackNum < whiteNum) {
+								System.out.println("White wins.");
+							} else {
+								blackNum = Integer.parseInt(blackRanks[4]);
+								whiteNum = Integer.parseInt(whiteRanks[4]);
+								if (blackNum > whiteNum) {
+									System.out.println("Black wins.");
+								} else if (blackNum < whiteNum) {
+									System.out.println("White wins.");
+								} else {
+									System.out.println("Tie.");
+								}							}
+						}
+					}
+				}else{
+
+					blackNum = Integer.parseInt(blackRanks[1]);
+					whiteNum = Integer.parseInt(whiteRanks[1]);
+					if (blackNum > whiteNum) {
+						System.out.println("Black wins.");
+					} else if (blackNum < whiteNum) {
+						System.out.println("White wins.");
+					} else {
+						blackNum = Integer.parseInt(blackRanks[2]);
+						whiteNum = Integer.parseInt(whiteRanks[2]);
+						if (blackNum > whiteNum) {
+							System.out.println("Black wins.");
+						} else if (blackNum < whiteNum) {
+							System.out.println("White wins.");
+						} else {
+							blackNum = Integer.parseInt(blackRanks[3]);
+							whiteNum = Integer.parseInt(whiteRanks[3]);
+							if (blackNum > whiteNum) {
+								System.out.println("Black wins.");
+							} else if (blackNum < whiteNum) {
+								System.out.println("White wins.");
+							} else {
+								blackNum = Integer.parseInt(blackRanks[4]);
+								whiteNum = Integer.parseInt(whiteRanks[4]);
+								if (blackNum > whiteNum) {
+									System.out.println("Black wins.");
+								} else if (blackNum < whiteNum) {
+									System.out.println("White wins.");
+								} else {
+									System.out.println("Tie.");
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+		scan.close();
+	}
+
+	public static String rank(ArrayList<String> cards) {
+		String currentCard;
+		ArrayList<Integer> cardNumericValue = new ArrayList<Integer>();
+		ArrayList<Character> cardFaceValue = new ArrayList<Character>();
+		char value;
+		for (int i = 0; i < 5; i++) {
+			currentCard = cards.get(i);
+			value = currentCard.charAt(0);
+			if (value == 'A') {
+				cardNumericValue.add(14);
+			} else if (value == 'K') {
+				cardNumericValue.add(13);
+			} else if (value == 'Q') {
+				cardNumericValue.add(12);
+			} else if (value == 'J') {
+				cardNumericValue.add(11);
+			} else if (value == 'T') {
+				cardNumericValue.add(10);
+			} else {
+				cardNumericValue.add(Integer.parseInt(String.valueOf(value)));
+			}
+			cardFaceValue.add(currentCard.charAt(1));
+		}
+		boolean four = true, house = true, flush = true, straight = true, three = true, twoPair = true, pair = true;
+		Collections.sort(cardNumericValue);
+		Collections.sort(cardFaceValue);
+
+		// Flush test
+		char possibleFlush = cardFaceValue.get(0);
+		for (int i = 1; i < 5; i++) {
+			if (cardFaceValue.get(i) != possibleFlush) {
+				flush = false;
+				break;
+			}
+		}
+		int card1 = cardNumericValue.get(0);
+		int card2 = cardNumericValue.get(1);
+		int card3 = cardNumericValue.get(2);
+		int card4 = cardNumericValue.get(3);
+		int card5 = cardNumericValue.get(4);
+		// Straight
+		if (!((card1 + 1 == card2) && (card2 + 1 == card3) && (card3 + 1 == card4) && (card4 + 1 == card5))) {
+			straight = false;
+		}
+		// Four of a kind
+		if (!((card1 == card2 && card2 == card3 && card3 == card4)
+				|| (card2 == card3 && card3 == card4 && card4 == card5))) {
+			four = false;
+		}
+		// Full house
+		if (!(((card1 == card2 && card2 == card3) && (card4 == card5))
+				|| ((card3 == card4 && card4 == card5) && (card1 == card2)))) {
+			house = false;
+		}
+		// Three of a kind
+		if (!((card1 == card2 && card2 == card3) || (card2 == card3 && card3 == card4)
+				|| (card3 == card4 && card4 == card5))) {
+			three = false;
+		}
+		// Two Pairs
+		if (!((card1 == card2) && ((card3 == card4) || (card4 == card5)) || ((card2 == card3) && (card4 == card5)))) {
+			twoPair = false;
+		}
+		// Pair
+		if (!((card1 == card2) || (card2 == card3) || (card3 == card4) || (card4 == card5))) {
+			pair = false;
+		}
+
+		if (flush && straight) {
+			return (39 + " " + card5);
+		} else if (four) {
+			if (card1 == card2) {
+				return (38 + " " + card1 + " " + card5);
+			} else {
+				return (38 + " " + card5 + " " + card1);
+			}
+		} else if (house) {
+			if ((card1 == card2) && (card2 == card3))
+			{
+				return (37 + " " + card1 + " " + card5);
+			}else
+			{
+				return (37 + " " + card5 + " " + card1);
+			}
+		} else if (flush) {
+			return (36 + " " + card5 + " " + card4 + " " + card3 + " " + card2 + " " + card1);
+		} else if (straight) {
+			return (35 + " " + card5 + " " + card4 + " " + card3 + " " + card2 + " " + card1);
+		} else if (three) {
+			if (((card1 == card2 && card2 == card3))) {
+				return (34 + " " + card3 + " " + card5 + " " + card4);
+			}
+			if (((card2 == card3 && card3 == card4))) {
+				return (34 + " " + card3 + " " + card5 + " " + card1);
+			}
+			if (((card3 == card4 && card4 == card5))) {
+				return (34 + " " + card3 + " " + card2 + " " + card1);
+			}
+		} else if (twoPair) {
+			if ((card1 == card2) && ((card3 == card4))) {
+				return (33 + " " + card4 + " " + card2 + " " + card5);
+			}
+			if ((card1 == card2) && ((card4 == card5))) {
+				return (33 + " " + card4 + " " + card2 + " " + card3);
+			}
+			if ((card2 == card3) && ((card4 == card5))) {
+				return (33 + " " + card4 + " " + card2 + " " + card1);
+			}
+		} else if (pair) {
+			if ((card1 == card2)) {
+				return (32 + " " + card2 + " " + card5 + " " + card4 + " " + card3);
+			}
+			if ((card2 == card3)) {
+				return (32 + " " + card2 + " " + card5 + " " + card4 + " " + card1);
+			}
+			if ((card3 == card4)) {
+				return (32 + " " + card3 + " " + card5 + " " + card2 + " " + card1);
+			}
+			if ((card4 == card5)) {
+				return (32 + " " + card5 + " " + card3 + " " + card2 + " " + card1);
+			}
+		} else {
+			return (card5 + " " + card4 + " " + card3 + " " + card2 + " " + card1);
+		}
+		return null;
+
+	}
+}

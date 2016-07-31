@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext())
+		{
+			long x = scan.nextLong();
+			long y = scan.nextLong();
+			if (x == 0 && y == 0)
+			{
+				break;
+			}
+			long acc = 0;
+			long ones = ((x % 10) + (y % 10)) / 10;
+			long twos = (((x / 10) % 10) + ((y / 10) % 10) + ones) / 10;
+			long threes = (((x / 100) % 10) + ((y / 100) % 10) + twos) / 10;
+			long four = (((x / 1000) % 10) + ((y / 1000) % 10) + threes) / 10;
+			long five = (((x / 10000) % 10) + ((y / 10000) % 10) + four) / 10;
+			long six = (((x / 100000) % 10) + ((y / 100000) % 10) + five) / 10;
+			long seven = (((x / 1000000) % 10) + ((y / 1000000) % 10) + six) / 10;
+			long eight = (((x / 10000000) % 10) + ((y / 10000000) % 10) + seven) / 10;
+			long nine = (((x / 100000000) % 10) + ((y / 100000000) % 10) + eight) / 10;
+			long ten = (((x / 1000000000) % 10) + ((y / 1000000000) % 10) + nine) / 10;
+			acc = ones + twos + threes + four+ five+ six+ seven+ eight+ nine+ ten;
+			if (acc == 0)
+			{
+				System.out.println("No carry operation.");
+			}else if (acc == 1)
+			{
+				System.out.println("1 carry operation.");
+
+			}else
+			{
+				System.out.println(acc + " carry operations.");
+			}
+		}
+		scan.close();
+	}
+	 
+}

@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		Character current;
+		String answer, line;
+		while (scan.hasNext())
+		{
+			line = scan.nextLine();
+			answer = "";
+			for (int i = 0; i < line.length(); i++)
+			{
+				current = line.charAt(i);
+				if (current == 'A' || current == 'B' || current == 'C')
+				{
+					answer = answer + "2";
+				}
+				else if (current == 'D' || current == 'E' || current == 'F')
+				{
+					answer = answer + "3";
+				}
+				else if (current == 'G' || current == 'H' || current == 'I')
+				{
+					answer = answer + "4";
+				}
+				else if (current == 'J' || current == 'K' || current == 'L')
+				{
+					answer = answer + "5";
+				}
+				else if (current == 'M' || current == 'N' || current == 'O')
+				{
+					answer = answer + "6";
+				}
+				else if (current == 'P' || current == 'Q' || current == 'R' || current == 'S')
+				{
+					answer = answer + "7";
+				}
+				else if (current == 'T' || current == 'U' || current == 'V')
+				{
+					answer = answer + "8";
+				}
+				else if (current == 'W' || current == 'X' || current == 'Y' || current == 'Z')
+				{
+					answer = answer + "9";
+				}
+				else
+				{
+					answer = answer + current;
+				}
+			}
+			System.out.println(answer);
+		}
+		scan.close();
+	}
+}

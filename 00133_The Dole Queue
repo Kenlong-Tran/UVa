@@ -1,0 +1,134 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int N, k, m, matched, counter;
+		String answer;
+		Link temp, incPointer, decPointer;
+		while (scan.hasNext()) {
+			N = scan.nextInt();
+			k = scan.nextInt();
+			m = scan.nextInt();
+			scan.nextLine();
+			if (N == 0 && k == 0 && m == 0) {
+				System.exit(0);
+			}
+			ArrayList<Link> map = new ArrayList<Link>();
+			temp = new Link(1, null);
+			map.add(temp);
+			for (int i = 2; i <= N; i++) {
+				temp = new Link(i, null);
+				temp.setLink(map.get(i - 2));
+				map.add(temp);
+			}
+			map.get(0).setLink(map.get(N - 1));
+			incPointer = map.get(N - 1);
+			decPointer = map.get(0);
+			matched = N;
+			answer = "";
+			while (matched > 0) {
+				counter = 0;
+				while (counter < k) {
+					incPointer = incPointer.getRight();
+					if (incPointer.getActive()) {
+						counter++;
+					}
+				}
+				counter = 0;
+				while (counter < m) {
+					decPointer = decPointer.getLeft();
+					if (decPointer.getActive()) {
+						counter++;
+					}
+				}
+				if (incPointer == decPointer) {
+					if (incPointer.getValue() > 9)
+					{
+						answer = answer + " " + incPointer.getValue() + ",";
+					}
+					else
+					{
+						answer = answer + "  " + incPointer.getValue() + ",";
+					}
+					matched = matched - 1;
+					incPointer.disable();
+				} else {
+					if (incPointer.getValue() > 9)
+					{
+						answer = answer + " " + incPointer.getValue();
+					}
+					else
+					{
+						answer = answer + "  " + incPointer.getValue();
+					}
+					if (decPointer.getValue() > 9)
+					{
+						answer = answer + " " + decPointer.getValue() + ",";
+					}
+					else
+					{
+						answer = answer + "  " + decPointer.getValue() + ",";
+					}
+					matched = matched - 2;
+					incPointer.disable();
+					decPointer.disable();
+				}
+				if (matched > 0) {
+					incPointer = incPointer.getLeft();
+					while (!incPointer.active) {
+						incPointer = incPointer.getLeft();
+					}
+					decPointer = decPointer.getRight();
+					while (!decPointer.active) {
+						decPointer = decPointer.getRight();
+					}
+				}
+
+			}
+			System.out.println(answer.substring(0, answer.length() - 1));
+
+		}
+		scan.close();
+
+	}
+
+	public static class Link {
+		private int currentValue;
+		private Link right;
+		private Link left;
+		private boolean active = true;
+
+		Link(int currentValue, Link right) {
+			this.currentValue = currentValue;
+			this.right = right;
+		}
+
+		public boolean getActive() {
+			return active;
+		}
+
+		public void disable() {
+			this.active = false;
+
+		}
+
+		public int getValue() {
+			return currentValue;
+		}
+
+		public Link getRight() {
+			return right;
+		}
+
+		public Link getLeft() {
+			return left;
+		}
+
+		public void setLink(Link left) {
+			this.left = left;
+			left.right = this;
+		}
+	}
+}

@@ -1,0 +1,95 @@
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		boolean first = false;
+		Scanner scan = new Scanner(System.in);
+		int caseNum = 1;
+		while (scan.hasNext()) {
+			int C = scan.nextInt();
+			int S = scan.nextInt();
+			int Q = scan.nextInt();
+			if (C == 0 && S == 0 && Q == 0) {
+				break;
+			}
+			if (first) {
+				System.out.println();
+			}
+			first = true;
+			System.out.println("Case #" + caseNum++);
+
+			ArrayList<Node> list = new ArrayList<Node>();
+			list.add(new Node());
+			for (int i = 1; i <= C; i++) {
+				list.add(new Node());
+			}
+			for (int i = 0; i < S; i++) {
+				int c1 = scan.nextInt();
+				int c2 = scan.nextInt();
+				int d = scan.nextInt();
+				Node one = list.get(c1);
+				Node two = list.get(c2);
+				one.addEdge(two, d);
+				two.addEdge(one, d);
+			}
+			for (int i = 0; i < Q; i++) {
+				for (int j = 1; j <= C; j++) {
+					list.get(j).maxDistance = Integer.MAX_VALUE;
+					list.get(j).visited = false;
+				}
+				int start = scan.nextInt();
+				int end = scan.nextInt();
+				ArrayDeque<Node> nodeList = new ArrayDeque<Node>();
+				Node current = list.get(start);
+				Node last = list.get(end);
+				current.maxDistance = 0;
+				current.visited = true;
+				nodeList.add(list.get(start));
+
+				while (!nodeList.isEmpty()) {
+					current = nodeList.remove();
+					ArrayList<Node> edges = current.edges;
+					ArrayList<Integer> distances = current.distances;
+
+					for (int z = 0; z < edges.size(); z++) {
+						Node next = edges.get(z);
+						int dist = Math.max(current.maxDistance, distances.get(z));
+						if (dist < next.maxDistance && dist < last.maxDistance) {
+							nodeList.add(next);
+							next.maxDistance = dist;
+							next.visited = true;
+						}
+					}
+				}
+				if (!last.visited) {
+					System.out.println("no path");
+				} else {
+					System.out.println(list.get(end).maxDistance);
+				}
+			}
+		}
+
+		scan.close();
+	}
+
+	static class Node {
+		private boolean visited = false;
+		private int maxDistance;
+		private ArrayList<Node> edges;
+		private ArrayList<Integer> distances;
+
+		Node() {
+			edges = new ArrayList<Node>();
+			distances = new ArrayList<Integer>();
+
+		}
+
+		void addEdge(Node node, int distance) {
+			edges.add(node);
+			distances.add(distance);
+		}
+	}
+
+}

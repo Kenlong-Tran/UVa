@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+class Main {
+	static List<Integer> primes = Arrays.asList(3, 5, 7, 11, 13, 17, 19, 23, 29, 31);
+	static HashMap<Integer, ArrayList<Integer>> map;
+
+	public static void main(String[] args) {
+		boolean first = false;
+		Scanner scan = new Scanner(System.in);
+		int caseNum = 1;
+		while (scan.hasNext()) {
+			if (first)
+			{
+				System.out.println();
+			}
+			first = true;
+			map = new HashMap<Integer, ArrayList<Integer>>();
+			int number = scan.nextInt();
+			System.out.println("Case " + caseNum++ + ":");
+			if (number == 1) {
+				System.out.println(1);
+			} else {
+				createMap(number);
+				boolean[] marked = new boolean[number + 1];
+				marked[1] = true;
+				search(1, "1", marked, 1, number);
+			}
+		}
+		scan.close();
+	}
+
+	private static void search(int current, String answer, boolean[] marked, int counter, int number) {
+		if (counter >= number) {
+			if (primes.contains(current + 1)) {
+				System.out.println(answer);
+			}
+		} else {
+			for (int i = 0; i < map.get(current).size(); i++) {
+				int next = map.get(current).get(i);
+				if (!marked[next]) {
+					marked[next] = true;
+					search(next, answer + " " + next, marked, counter + 1, number);
+					marked[next] = false;
+				}
+			}
+		}
+	}
+
+	private static void createMap(int number) {
+		for (int i = 1; i <= number; i++) {
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			for (int j = 0; j < primes.size(); j++) {
+				int prime = primes.get(j);
+				if (prime - i > 0 && prime - i <= number) {
+					list.add(prime - i);
+				}
+			}
+			map.put(i, list);
+		}
+	}
+}

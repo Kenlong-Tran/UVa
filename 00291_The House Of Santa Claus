@@ -1,0 +1,77 @@
+import java.util.ArrayList;
+
+class Main {
+	public static void main(String[] args) {
+
+		ArrayList<Edges> map = new ArrayList<Edges>();
+		map.add(new Edges(1, 2));
+		map.add(new Edges(1, 3));
+		map.add(new Edges(1, 5));
+		map.add(new Edges(2, 3));
+		map.add(new Edges(2, 5));
+		map.add(new Edges(3, 4));
+		map.add(new Edges(3, 5));
+		map.add(new Edges(4, 5));
+
+		int[] answer = new int[9];
+		answer[0] = 1;
+		search(1, 0, answer, map);
+
+	}
+
+	private static void search(int value, int count, int[] answer, ArrayList<Edges> map) {
+		if (count == 8) {
+			String print = "";
+			for (int i = 0; i < 9; i++) {
+				print = print + answer[i];
+			}
+			System.out.println(print);
+		} else {
+			for (int i = 0; i < 8; i++)
+			{
+				Edges next = map.get(i);
+				if (next.possible(value) && !next.isVisited)
+				{
+					next.isVisited = true;
+					int nextValue = next.otherValue(value);
+					answer[count + 1] = nextValue;
+					search(nextValue, count + 1, answer, map);
+					answer[count + 1] = 0;
+					next.isVisited = false;
+				}
+			}
+		}
+
+	}
+
+	static class Edges {
+		boolean isVisited;
+		private int point1;
+		private int point2;
+
+		Edges(int point1, int point2) {
+			this.point1 = point1;
+			this.point2 = point2;
+			isVisited = false;
+		}
+
+		public boolean possible(int location) {
+			if (location == point1 || location == point2) {
+				return true;
+			}
+			return false;
+		}
+		public int otherValue (int location)
+		{
+			if (location == point1)
+			{
+				return point2;
+			}
+			else
+			{
+				return point1;
+			}
+		}
+
+	}
+}

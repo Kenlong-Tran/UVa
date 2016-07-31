@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext())
+		{
+			long number = scan.nextLong();
+			if (number == 0)
+			{
+				break;
+			}
+			double value = Math.sqrt(number);
+			if ((value * 10) % 10 == 0)
+			{
+				System.out.println("yes");
+			}
+			else
+			{
+				System.out.println("no");
+			}
+			
+		}
+		scan.close();
+	}
+}

@@ -1,0 +1,108 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+class Main {
+
+	static int boxes, size, answer;
+	static Boxes winner;
+	static int[] table;
+	static ArrayList<Boxes> list;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext()) {
+			boxes = scan.nextInt();
+			size = scan.nextInt();
+			list = new ArrayList<Boxes>();
+			for (int i = 1; i <= boxes; i++) {
+				ArrayList<Integer> dim = new ArrayList<Integer>();
+				for (int j = 0; j < size; j++) {
+					dim.add(scan.nextInt());
+				}
+				Collections.sort(dim);
+				list.add(new Boxes(i, dim));
+			}
+			for (int i = 0; i < boxes; i++) {
+				Boxes box1 = list.get(i);
+				for (int j = i; j < boxes; j++) {
+					Boxes box2 = list.get(j);
+					if (isSmaller(box1, box2)) {
+						box1.addBox(box2);
+					}
+					if (isSmaller(box2, box1)) {
+						box2.addBox(box1);
+					}
+				}
+			}
+			answer = 0;
+			table = new int[boxes + 1];
+			for (int i = 1; i <= boxes; i++) {
+				if (table[i] == 0) {
+					search(i);
+				}
+			}
+			System.out.println(answer);
+			while (answer > 1) {
+				answer--;
+				System.out.print(winner.box + " ");
+				winner = winner.optimal;
+			}
+			System.out.println(winner.box);
+
+		}
+		scan.close();
+	}
+
+	private static void search(int box) {
+		Boxes current = list.get(box - 1);
+		table[box] = 1;
+		ArrayList<Boxes> edges = current.smaller;
+		for (int i = 0; i < edges.size(); i++) {
+			Boxes next = edges.get(i);
+			if (table[next.box] == 0) {
+				search(next.box);
+			}
+			if (table[box] < table[next.box] + 1) {
+				table[box] = table[next.box] + 1;
+				current.setOptimal(next);
+			}
+		}
+		if (table[box] > answer) {
+			answer = table[box];
+			winner = current;
+		}
+	}
+
+	static class Boxes {
+		private ArrayList<Integer> dimensions;
+		private ArrayList<Boxes> smaller;
+		private int box;
+		private Boxes optimal;
+
+		Boxes(int box, ArrayList<Integer> dimensions) {
+			this.box = box;
+			this.dimensions = dimensions;
+			smaller = new ArrayList<Boxes>();
+		}
+
+		private void setOptimal(Boxes small) {
+			this.optimal = small;
+		}
+
+		private void addBox(Boxes smallBox) {
+			smaller.add(smallBox);
+		}
+	}
+
+	static boolean isSmaller(Boxes box1, Boxes box2) {
+		ArrayList<Integer> dim1 = box1.dimensions;
+		ArrayList<Integer> dim2 = box2.dimensions;
+		for (int i = 0; i < size; i++) {
+			if (dim1.get(i) >= dim2.get(i)) {
+				return false;
+			}
+		}
+		return true;
+	}
+}

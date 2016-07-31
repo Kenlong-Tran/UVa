@@ -1,0 +1,46 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner (System.in);
+		while(scan.hasNextInt())
+		{
+			int temp1 = scan.nextInt();
+			int temp2 = scan.nextInt();
+			int maximum = 0;
+			int first = Math.min(temp1, temp2);
+			int last = Math.max(temp1, temp2);
+			for (int i = first; i <= last; i++)
+			{
+				int value = function(i);
+				if (maximum < value)
+				{
+					maximum = value;
+				}
+			}
+			System.out.println(temp1 + " " + temp2 + " " + maximum);
+		}
+		scan.close();
+		System.exit(0);
+		
+	}
+	public static int function (int i)
+	{
+		int counter = 1;
+		while (i > 1)
+		{
+			if (i % 2 == 1)
+			{
+				i = 3*i + 1;
+			}
+			else
+			{
+				i = i/2;
+			}
+			counter++;
+		}
+		return counter;
+	}
+
+}

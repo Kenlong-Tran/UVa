@@ -1,0 +1,97 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Main {
+	static Scanner scan = new Scanner(System.in);
+	static ArrayList<Integer> left, right;
+	static int zero;
+
+	public static void main(String[] args) {
+		int cases = 1;
+		while (scan.hasNext()) {
+			Node root = createTree();
+			if (root.getValue() == -1) {
+				break;
+			} else {
+				System.out.println("Case " + cases++ + ":");
+				left = new ArrayList<Integer>();
+				right = new ArrayList<Integer>();
+				zero = 0;
+				calculate(root, 0);
+				String answer = "";
+				for (int i = left.size() - 1; i >= 0; i--) {
+					answer = answer + left.get(i) + " ";
+				}
+				answer = answer + zero + " ";
+				for (int i = 0; i < right.size(); i++) {
+					answer = answer + right.get(i) + " ";
+				}
+				System.out.println(answer.substring(0, answer.length() - 1));
+				System.out.println();
+
+			}
+
+		}
+		scan.close();
+	}
+
+	private static void calculate(Node root, int position) {
+		if (root.getValue() != -1) {
+			if (position == 0) {
+				zero = zero + root.getValue();
+			} else if (position < 0) {
+				if (left.size() < Math.abs(position)) {
+					left.add(root.getValue());
+				} else {
+					int value = left.get(Math.abs(position) - 1) + root.getValue();
+					left.set(Math.abs(position) - 1, value);
+				}
+			} else {
+				if (right.size() < position) {
+					right.add(root.getValue());
+				} else {
+					int value = right.get(position - 1) + root.getValue();
+					right.set(position - 1, value);
+				}
+			}
+			calculate(root.left, position - 1);
+			calculate(root.right, position + 1);
+		}
+
+	}
+
+	private static Node createTree() {
+		int root = scan.nextInt();
+		if (root == -1) {
+			return new Node(-1);
+		} else {
+			Node rootNode = new Node(root);
+			rootNode.setLeft(createTree());
+			rootNode.setRight(createTree());
+			return rootNode;
+
+		}
+
+	}
+
+	static class Node {
+		private Node left, right;
+		int value;
+
+		Node(int value) {
+			this.value = value;
+		}
+
+		void setLeft(Node left) {
+			this.left = left;
+		}
+
+		void setRight(Node right) {
+			this.right = right;
+		}
+
+		int getValue() {
+			return value;
+		}
+	}
+}

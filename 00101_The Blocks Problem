@@ -1,0 +1,174 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	static ArrayList<Node> map;
+	static Node end = new Node(-1, null, null);
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int blocks = scan.nextInt();
+		map = new ArrayList<Node>();
+		for (int i = 0; i < blocks; i++) {
+			Node temp = new Node(i, end, end);
+			map.add(temp);
+		}
+		boolean cont = true;
+		while (cont) {
+			String command1 = scan.next();
+			if (command1.equals("quit")) {
+				cont = false;
+				break;
+			}
+			int a = scan.nextInt();
+			String command2 = scan.next();
+			int b = scan.nextInt();
+			if (a != b) {
+				if (command1.equals("move")) {
+					if (command2.equals("onto")) {
+						Node stackA = map.get(a);
+						Node stackB = map.get(b);
+						Node backB = stackB.getTail();
+						Node backA = stackA.getTail();
+						Node temp;
+						if (stackA.getHeadValue() != stackB.getHeadValue()) {
+
+							stackA.getHead().setTail(end);
+							while (backB != end) {
+								temp = backB;
+								backB = temp.getTail();
+								temp.setTail(end);
+								temp.setHead(end);
+							}
+							while (backA != end) {
+								temp = backA;
+								backA = temp.getTail();
+								temp.setTail(end);
+								temp.setHead(end);
+							}
+							stackA.setHead(stackB);
+							stackB.setTail(stackA);
+							stackA.setTail(end);
+						}
+					}
+					if (command2.equals("over")) {
+						Node stackA = map.get(a);
+						Node stackB = map.get(b);
+						Node backB = stackB;
+						Node backA = stackA.getTail();
+						Node temp;
+						if (stackA.getHeadValue() != stackB.getHeadValue()) {
+							stackA.getHead().setTail(end);
+							while (backA != end) {
+								temp = backA;
+								backA = temp.getTail();
+								temp.setTail(end);
+								temp.setHead(end);
+							}
+							while (backB.getTail() != end) {
+								backB = backB.getTail();
+							}
+							backB.getHead();
+							backB.setTail(stackA);
+							stackA.setHead(backB);
+							stackA.setTail(end);
+						}
+					}
+				}
+				if (command1.equals("pile")) {
+					if (command2.equals("onto")) {
+						Node stackA = map.get(a);
+						Node stackB = map.get(b);
+						Node backB = stackB.getTail();
+						Node temp;
+						if (stackA.getHeadValue() != stackB.getHeadValue()) {
+							stackA.getHead().setTail(end);
+							while (backB != end) {
+								temp = backB;
+								backB = temp.getTail();
+								temp.setTail(end);
+								temp.setHead(end);
+							}
+							stackB.setTail(stackA);
+							stackA.setHead(stackB);
+						}
+
+					}
+					if (command2.equals("over")) {
+						Node stackA = map.get(a);
+						Node stackB = map.get(b);
+						if (stackA.getHeadValue() != stackB.getHeadValue()) {
+							stackA.getHead().setTail(end);
+							Node backB = stackB;
+							Node frontA = stackA.getHead();
+							frontA.setTail(end);
+							while (backB.getTail() != end) {
+								backB = backB.getTail();
+							}
+							backB.setTail(stackA);
+							stackA.setHead(backB);
+						}
+					}
+				}
+
+			}
+		}
+		for (int i = 0; i < blocks; i++) {
+
+			Node current = map.get(i);
+			String answer = i + ":";
+			if (current.getHead() == end) {
+				answer = answer + " " + current.getValue();
+
+				while (current.getTail() != end) {
+					current = current.getTail();
+					answer = answer + " " + current.getValue();
+
+				}
+			}
+			System.out.println(answer);
+
+		}
+		scan.close();
+	}
+
+	public static class Node {
+		private int currentValue;
+		private Node head;
+		private Node tail;
+
+		Node(int currentValue, Node head, Node tail) {
+			this.currentValue = currentValue;
+			this.head = head;
+			this.tail = tail;
+		}
+
+		public int getHeadValue() {
+			Node temp = this;
+			while (temp.getHead().getValue() != -1) {
+				temp = temp.getHead();
+			}
+			return temp.getValue();
+		}
+
+		public int getValue() {
+			return currentValue;
+		}
+
+		public Node getHead() {
+			return head;
+		}
+
+		public Node getTail() {
+			return tail;
+		}
+
+		public void setHead(Node head) {
+			this.head = head;
+		}
+
+		public void setTail(Node tail) {
+			this.tail = tail;
+		}
+	}
+}

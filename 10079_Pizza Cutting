@@ -1,0 +1,31 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		boolean cont = true;
+		String number;
+		while (cont)
+		{
+			number=scan.next();
+			if (number.charAt(0) == '-')
+			{
+				cont = false;
+			}
+			else
+			{
+				BigInteger x = new BigInteger(number);
+				x = x.multiply(x.add(BigInteger.ONE));
+				x = x.divide(x.valueOf(2));
+				x = x.add(BigInteger.ONE);
+				System.out.println(x);
+				
+			}
+		}
+		scan.close();
+	}
+
+
+	
+}

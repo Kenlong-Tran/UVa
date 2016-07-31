@@ -1,0 +1,155 @@
+import java.util.Scanner;
+
+class Main {
+	static int counter;
+	static Node[] FirstNodeTree, SecondNodeTree;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		for (int i = 0; i < cases; i++) {
+			String firstTree = scan.next();
+			FirstNodeTree = new Node[firstTree.length()];
+			counter = 0;
+			treeBuild(firstTree, counter, 1);
+			String secondTree = scan.next();
+			SecondNodeTree = new Node[secondTree.length()];
+			counter = 0;
+			treeBuild(secondTree, counter, 2);
+			Node answer = addTree(FirstNodeTree[0], SecondNodeTree[0]);
+			System.out.println("There are " + calculate(answer, 1024) + " black pixels.");
+		}
+		scan.close();
+	}
+
+	private static int calculate(Node tree, int value) {
+		int answer = 0;
+		if (tree.getValue() == 2) {
+			return value;
+		}
+		if (tree.getValue() == 1) {
+			return 0;
+		}
+		if (tree.getValue() == 0) {
+			int fl = calculate(tree.farLeftChild, value / 4);
+			int l = calculate(tree.leftChild, value / 4);
+			int r = calculate(tree.rightChild, value / 4);
+			int fr = calculate(tree.farRightChild, value / 4);
+			answer = fl + l + r + fr;
+		}
+		return answer;
+	}
+
+	private static Node addTree(Node firstNodeRoot, Node secondNodeRoot) {
+		Node root = null;
+		if (firstNodeRoot.getValue() == 0) {
+			if (secondNodeRoot.getValue() == 0) {
+				root = new Node(0);
+				root.setFarLeft(addTree(firstNodeRoot.farLeftChild, secondNodeRoot.farLeftChild));
+				root.setLeft(addTree(firstNodeRoot.leftChild, secondNodeRoot.leftChild));
+				root.setRight(addTree(firstNodeRoot.rightChild, secondNodeRoot.rightChild));
+				root.setFarRight(addTree(firstNodeRoot.farRightChild, secondNodeRoot.farRightChild));
+
+			}
+			if (secondNodeRoot.getValue() == 1) {
+				return firstNodeRoot;
+			}
+			if (secondNodeRoot.getValue() == 2) {
+				return secondNodeRoot;
+			}
+
+		}
+		if (firstNodeRoot.getValue() == 1) {
+			return secondNodeRoot;
+		}
+		if (firstNodeRoot.getValue() == 2) {
+			return firstNodeRoot;
+		}
+		return root;
+	}
+
+	private static Node treeBuild(String tree, int index, int treeNum) {
+		counter++;
+		if (tree.charAt(index) == 'p') {
+			Node temp = new Node(0);
+			if (treeNum == 1) {
+				FirstNodeTree[index] = temp;
+				FirstNodeTree[index].setFarLeft(treeBuild(tree, counter, 1));
+				FirstNodeTree[index].setLeft(treeBuild(tree, counter, 1));
+				FirstNodeTree[index].setRight(treeBuild(tree, counter, 1));
+				FirstNodeTree[index].setFarRight(treeBuild(tree, counter, 1));
+			} else {
+				SecondNodeTree[index] = temp;
+				SecondNodeTree[index].setFarLeft(treeBuild(tree, counter, 2));
+				SecondNodeTree[index].setLeft(treeBuild(tree, counter, 2));
+				SecondNodeTree[index].setRight(treeBuild(tree, counter, 2));
+				SecondNodeTree[index].setFarRight(treeBuild(tree, counter, 2));
+			}
+			return temp;
+		} else if (tree.charAt(index) == 'e') {
+			Node temp = new Node(1);
+			temp.setFarLeft(new Node(-1));
+			temp.setLeft(new Node(-1));
+			temp.setRight(new Node(-1));
+			temp.setFarRight(new Node(-1));
+			if (treeNum == 1) {
+				FirstNodeTree[index] = temp;
+			} else {
+				SecondNodeTree[index] = temp;
+			}
+			return temp;
+		} else if (tree.charAt(index) == 'f') {
+			Node temp = new Node(2);
+			temp.setFarLeft(new Node(-1));
+			temp.setLeft(new Node(-1));
+			temp.setRight(new Node(-1));
+			temp.setFarRight(new Node(-1));
+			if (treeNum == 1) {
+				FirstNodeTree[index] = temp;
+			} else {
+				SecondNodeTree[index] = temp;
+			}
+			return temp;
+		}
+		if (treeNum == 1) {
+			return FirstNodeTree[0];
+		} else {
+			return SecondNodeTree[0];
+		}
+	}
+
+	static class Node {
+		private int value;
+		private Node farLeftChild, leftChild, farRightChild, rightChild;
+
+		Node(int value) {
+			this.value = value;
+		}
+
+		private void setFarLeft(Node left) {
+			farLeftChild = left;
+		}
+
+		private void setLeft(Node left) {
+			leftChild = left;
+		}
+
+		private void setRight(Node right) {
+			rightChild = right;
+		}
+
+		private void setFarRight(Node right) {
+			farRightChild = right;
+		}
+
+		public int getValue() {
+			return value;
+		}
+
+		public String toString() {
+			return (value + " " + farLeftChild.getValue() + " " + leftChild.getValue() + " " + rightChild.getValue()
+					+ " " + farRightChild.getValue());
+		}
+
+	}
+}

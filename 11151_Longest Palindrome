@@ -1,0 +1,50 @@
+import java.util.Scanner;
+
+class Main {
+	public static int[][] table;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		scan.nextLine();
+		for (int i = 0; i < cases; i++) {
+			String letters = scan.nextLine();
+			if (letters.equals("")) {
+				System.out.println(0);
+			} else {
+				table = new int[letters.length()][letters.length()];
+				for (int h = 0; h < letters.length(); h++) {
+					for (int j = 0; j < letters.length(); j++) {
+						table[h][j] = -1;
+					}
+				}
+				p(letters, 0, letters.length() - 1);
+				System.out.println(table[0][letters.length() - 1]);
+			}
+		}
+		scan.close();
+	}
+
+	public static void p(String letters, int i, int j) {
+		if (i > j) {
+			table[i][j] = 0;
+		} else if (i == j) {
+			table[i][j] = 1;
+		} else if (i < j && letters.charAt(i) != letters.charAt(j)) {
+			if (table[i + 1][j] == -1) {
+				p(letters, i + 1, j);
+			}
+			if (table[i][j - 1] == -1) {
+				p(letters, i, j - 1);
+			}
+			table[i][j] = Math.max(table[i + 1][j], table[i][j - 1]);
+		} else if (i < j && letters.charAt(i) == letters.charAt(j)) {
+			if (table[i + 1][j - 1] == -1) {
+				p(letters, i + 1, j - 1);
+			}
+			table[i][j] = 2 + table[i + 1][j - 1];
+		}
+
+	}
+
+}

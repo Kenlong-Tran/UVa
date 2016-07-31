@@ -1,0 +1,113 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Scanner;
+
+class Main {
+	static int elephantNum;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		ArrayList<Integer> weight = new ArrayList<Integer>();
+		ArrayList<Integer> iq = new ArrayList<Integer>();
+		iq.add(-1);
+		ArrayList<Integer> iqTemp = new ArrayList<Integer>();
+		iqTemp.add(-1);
+		HashMap<Integer, ArrayList<Integer>> weightMap = new HashMap<Integer, ArrayList<Integer>>();
+		ArrayList<Integer> temp;
+		int weightNum;
+		int iqNum;
+		elephantNum = 1;
+		while (scan.hasNextInt()) {
+			iqTemp.add(-1);
+
+			weightNum = scan.nextInt();
+			iqNum = scan.nextInt();
+			weight.add(weightNum);
+			if (!weightMap.containsKey(weightNum)) {
+				temp = new ArrayList<Integer>();
+			} else {
+				temp = weightMap.get(weightNum);
+			}
+			temp.add(elephantNum);
+			weightMap.put(weightNum, temp);
+
+			iq.add(iqNum);
+			elephantNum++;
+		}
+		weight.add(-1);
+		Collections.sort(weight);
+		ArrayList<Integer> anotherTemp;
+		ArrayList<Integer> elephant = new ArrayList<Integer>();
+		elephant.add(-1);
+		for (int i = 1; i < elephantNum; i++) {
+			anotherTemp = weightMap.get(weight.get(i));
+			int index = anotherTemp.remove(0);
+			iqTemp.set(i, iq.get(index));
+			weightMap.replace(weight.get(i), anotherTemp);
+			elephant.add(index);
+		}
+		int[] key = LSS(weight, iqTemp);
+		int max = 0;
+		int index = 0;
+		for (int i = 1; i < elephantNum; i++) {
+			if (key[i] > max) {
+				max = key[i];
+				index = i;
+			}
+		}
+		System.out.println(max);
+		backtrack(index, max, elephant, weight, iqTemp, key);
+		scan.close();
+	}
+
+
+	private static void backtrack(int index, int max, ArrayList<Integer> elephant, ArrayList<Integer> weight,
+			ArrayList<Integer> iq, int[] key) {
+		ArrayList<Integer> answer = new ArrayList<Integer>();
+		answer.add(elephant.get(index));
+		max--;
+		while (max > 0)
+		{
+			for (int i = 1; i < index; i++)
+			{
+				if (key[i] == max)
+				{
+					if (weight.get(i) < weight.get(index) && iq.get(i) > iq.get(index))
+					{
+						answer.add(elephant.get(i));
+						index = i;
+						max--;
+					}
+				}
+			}
+		}
+		
+		int length = answer.size();
+		while (length > 0)
+		{
+			System.out.println(answer.get(length - 1));
+			length--;
+		}	
+		
+	}
+
+
+	public static int[] LSS(ArrayList<Integer> weight, ArrayList<Integer> iq) {
+		int[] answer = new int[elephantNum];
+		int max;
+		for (int i = 1; i < elephantNum; i++) {
+			max = 1;
+			for (int j = 1; j < i; j++) {
+				if (weight.get(j) < weight.get(i) && iq.get(j) > iq.get(i)) {
+					if ((answer[j] + 1) > max) {
+						max = answer[j] + 1;
+					}
+				}
+			}
+			answer[i] = max;
+		}
+		return answer;
+	}
+
+}

@@ -1,0 +1,44 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+public class Main {
+	
+	public static void main(String[] args) 
+	{
+		Scanner scan = new Scanner(System.in);
+		while(scan.hasNext())
+		{
+			int number = scan.nextInt();
+			BigInteger answer = fib(number);
+			System.out.println("The Fibonacci number for " + number + " is " + answer);
+		}
+		scan.close();
+	}
+	public static BigInteger fib (int number)
+	{
+		BigInteger first = BigInteger.ZERO;
+		BigInteger second = BigInteger.ONE;
+		BigInteger temp = BigInteger.ZERO;
+		long count = 2;
+		if (number == 0)
+		{
+			return first;
+		}
+		else if (number == 1)
+		{
+			return second;
+		}
+		else
+		{
+			while (count <= number)
+			{
+				temp = first.add(second);
+				first = second;
+				second = temp;
+				count = count + 1;
+			}
+		}
+		return temp;
+		
+	}
+}

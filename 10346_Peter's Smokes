@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		while (scan.hasNext())
+		{
+			int n = scan.nextInt();
+			int k = scan.nextInt();
+			int total = n;
+			int remainder = 0;
+			while (n >= k)
+			{
+				remainder = n % k;
+				n = n / k;
+				total = total + n;
+				n = n + remainder;
+			}
+			System.out.println(total);
+		}
+		scan.close();
+	}
+}

@@ -1,0 +1,54 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int cases = scan.nextInt();
+		scan.nextLine();
+		for (int i = 0; i < cases; i++)
+		{
+			int turtles = scan.nextInt();
+			scan.nextLine();
+			ArrayList<String> temp1 = new ArrayList<String>();
+			for (int k = 0; k < turtles; k++)
+			{
+				temp1.add(scan.nextLine());
+			}
+			ArrayList<String> temp2 = new ArrayList<String>();
+			for (int k = 0; k < turtles; k++)
+			{
+				temp2.add(scan.nextLine());
+			}
+			ArrayList<Integer> order = new ArrayList<Integer>();
+			for (int k = 0; k < turtles; k++)
+			{
+				order.add(turtles - temp2.indexOf(temp1.get(k)) - 1);
+			}
+			int current = 0;
+			int index = turtles;
+			boolean cont = true;
+			while (cont)
+			{
+				int now = order.indexOf(current);
+				if (now < index)
+				{
+					current++;
+					index = now;
+					continue;
+				}
+				else
+				{
+					cont = false;
+				}
+			}
+			for (int z = current; z < turtles; z++)
+			{
+				System.out.println(temp2.get(turtles - z - 1));
+			}
+			System.out.println();
+
+		}
+		scan.close();
+	}
+}

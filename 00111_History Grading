@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int events = scan.nextInt();
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		ArrayList<Integer> student = new ArrayList<Integer>();
+		ArrayList<Integer> answer = new ArrayList<Integer>();
+		for (int i = 0; i <= events; i++)
+		{
+			temp.add(-1);
+			answer.add(-1);
+			student.add(-1);
+		}
+		for (int i = 1; i <= events; i++)
+		{
+			temp.set(i,scan.nextInt());
+		}
+		for (int i = 1; i <= events; i++)
+		{
+			answer.set(i, temp.indexOf(i));
+		}
+		while (scan.hasNextInt())
+		{
+			for (int i = 1; i <= events; i++)
+			{
+				temp.set(i, scan.nextInt());
+			}
+			for (int i = 1; i <= events; i++)
+			{
+				student.set(i, temp.indexOf(i));
+			}
+
+			System.out.println(LSS(answer,student));
+		}
+		scan.close();
+	}
+	public static int LSS (ArrayList<Integer> answer, ArrayList<Integer> student)
+	{
+		int[] key = new int[answer.size()];
+		key[0] = 0;
+		for (int i = 1; i < answer.size(); i++)
+		{
+			int currentMax = 1;
+			for (int j = 1; j < i; j++)
+			{
+				if (answer.indexOf(student.get(j)) < answer.indexOf(student.get(i)))
+				{
+
+					if ((key[j] + 1) > currentMax)
+					{
+						currentMax = key[j] + 1;
+					}
+				}
+			}
+			key[i] = currentMax;
+		}
+		int max = 0;
+		for (int i = 0; i < answer.size(); i++)
+		{
+			if (key[i] > max)
+			{
+				max = key[i];
+			}
+		}
+
+		return max;
+	}
+
+}

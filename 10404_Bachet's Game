@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+class Main {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int rocks, possibleMoves;
+		int[] moves;
+		boolean[] result; //false is P
+		while(scan.hasNextInt())
+		{
+			rocks = scan.nextInt();
+			possibleMoves = scan.nextInt();
+			moves = new int [possibleMoves];
+			for (int i = 0; i < possibleMoves; i++)
+			{
+				moves[i] = scan.nextInt();
+			}
+			result = new boolean[rocks + 1];
+			for (int i = 1; i <= rocks; i++)
+			{
+				for (int j = 0; j < possibleMoves; j++)
+				{
+					if (i - moves[j] >= 0 && result[i - moves[j]] == false)
+					{
+						result[i] = true;
+					}
+				}
+			}
+			if (result[rocks])
+			{
+				System.out.println("Stan wins");
+			}else
+			{
+				System.out.println("Ollie wins");
+
+			}
+		}
+		scan.close();
+	}
+}

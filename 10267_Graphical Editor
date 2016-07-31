@@ -1,0 +1,163 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class Main {
+	static int column = 0, row = 0;
+	static String[][] grid;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		String[] function;
+		boolean created = false;
+		int x1, x2, y1, y2;
+		String currentColor, color;
+		while (scan.hasNext()) {
+			function = scan.nextLine().replaceAll("\\s+", " ").split(" ");
+			if (function[0].equals("I")) {
+				column = Integer.parseInt(function[1]);
+				row = Integer.parseInt(function[2]);
+				if (column <= 250 && row <= 250) {
+					grid = new String[row][column];
+					created = true;
+					for (int i = 0; i < row; i++) {
+						for (int j = 0; j < column; j++) {
+							grid[i][j] = "O";
+						}
+					}
+				}
+			}
+			if (function[0].equals("C") && created) {
+				for (int i = 0; i < row; i++) {
+					for (int j = 0; j < column; j++) {
+						grid[i][j] = "O";
+					}
+				}
+			}
+			if (function[0].equals("L") && created) {
+				x1 = Integer.parseInt(function[1]) - 1;
+				y1 = Integer.parseInt(function[2]) - 1;
+				color = function[3];
+				if (validX(x1) && validY(y1)) {
+					grid[y1][x1] = color;
+				}
+
+			}
+			if (function[0].equals("V") && created) {
+				x1 = Integer.parseInt(function[1]) - 1;
+				y1 = Integer.parseInt(function[2]) - 1;
+				y2 = Integer.parseInt(function[3]) - 1;
+				color = function[4];
+				if (validX(x1) && validY(y1) && validY(y2)) {
+					for (int i = Math.min(y1, y2); i <= Math.max(y1, y2); i++) {
+						grid[i][x1] = color;
+					}
+				}
+			}
+			if (function[0].equals("H") && created) {
+				x1 = Integer.parseInt(function[1]) - 1;
+				x2 = Integer.parseInt(function[2]) - 1;
+				y1 = Integer.parseInt(function[3]) - 1;
+				color = function[4];
+				if (validX(x1) && validX(x2) && validY(y1)) {
+					for (int i = Math.min(x1, x2); i <= Math.max(x1, x2); i++) {
+						grid[y1][i] = color;
+					}
+				}
+			}
+			if (function[0].equals("K") && created) {
+				x1 = Integer.parseInt(function[1]) - 1;
+				y1 = Integer.parseInt(function[2]) - 1;
+				x2 = Integer.parseInt(function[3]) - 1;
+				y2 = Integer.parseInt(function[4]) - 1;
+				color = function[5];
+				if (validX(x1) && validX(x2) && validY(y1) && validY(y2)) {
+					for (int i = Math.min(x1, x2); i <= Math.max(x1, x2); i++) {
+
+						for (int j = Math.min(y1, y2); j <= Math.max(y1, y2); j++) {
+							grid[j][i] = color;
+						}
+					}
+				}
+			}
+			if (function[0].equals("F") && created) {
+				x1 = Integer.parseInt(function[1]) - 1;
+				y1 = Integer.parseInt(function[2]) - 1;
+				color = function[3];
+				if (validX(x1) && validY(y1)) {
+					currentColor = grid[y1][x1];
+					if (!currentColor.equals(color)) {
+						fill(x1, y1, currentColor, color);
+					}
+				}
+			}
+			if (function[0].equals("S") && created) {
+				System.out.println(function[1]);
+				for (int v = 0; v < row; v++) {
+					for (int h = 0; h < column; h++) {
+						System.out.print(grid[v][h]);
+					}
+					System.out.println();
+				}
+			}
+			if (function[0].equals("X")) {
+				break;
+			}
+		}
+		scan.close();
+	}
+
+	public static void fill(int startX, int startY, String currentColor, String newColor) {
+		Queue<Integer> list = new LinkedList<Integer>();
+		grid[startY][startX] = newColor;
+		list.add(startY);
+		list.add(startX);
+		int x, y;
+		while (!list.isEmpty()) {
+			y = list.remove();
+			x = list.remove();
+
+			// left
+			if (validX(x - 1) && grid[y][x - 1].equals(currentColor)) {
+				list.add(y);
+				list.add(x - 1);
+				grid[y][x - 1] = newColor;
+			}
+			// right
+			if (validX(x + 1) && grid[y][x + 1].equals(currentColor)) {
+				list.add(y);
+				list.add(x + 1);
+				grid[y][x + 1] = newColor;
+			}
+			// up
+			if (validY(y - 1) && grid[y - 1][x].equals(currentColor)) {
+				list.add(y - 1);
+				list.add(x);
+				grid[y - 1][x] = newColor;
+			}
+			// down
+			if (validY(y + 1) && grid[y + 1][x].equals(currentColor)) {
+				list.add(y + 1);
+				list.add(x);
+				grid[y + 1][x] = newColor;
+			}
+		}
+
+	}
+
+	public static boolean validX(int x) {
+		if (x >= 0 && x < column) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean validY(int y) {
+		if (y >= 0 && y < row) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

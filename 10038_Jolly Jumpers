@@ -1,0 +1,52 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int jolly, difference;
+		int [] jumpers;
+		boolean [] results;
+		boolean answer = true;
+		while (scan.hasNext())
+		{
+			jolly = scan.nextInt();
+			jumpers = new int [jolly];
+			results = new boolean [jolly];
+			answer = true;
+			for (int i = 0; i < jolly; i++)
+			{
+				jumpers[i] = scan.nextInt();
+				results[i] = false;
+			}
+			for (int i = 0; i < jolly - 1; i++)
+			{
+				difference = Math.abs(jumpers[i] - jumpers[i + 1]);
+				if (difference < jolly)
+				{
+					if (results[difference])
+				{
+					answer = false;
+					break;
+				}
+				results[difference] = true;
+				} else
+				{
+					answer = false;
+					break;
+				}
+				
+			}
+			if (answer)
+			{
+				System.out.println("Jolly");
+			}
+			else
+			{
+				System.out.println("Not jolly");
+
+			}
+		}
+		scan.close();
+	}
+}
